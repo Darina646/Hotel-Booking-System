@@ -25,11 +25,11 @@ public class Booking {
     }
 
     public int getGuestIdId() {
-        return roomId;
+        return guestId;
     }
 
     public int getRoomId() {
-        return guestId;
+        return roomId;
     }
 
     public LocalDate getArrivalDate() {
