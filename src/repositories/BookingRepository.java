@@ -1,40 +1,109 @@
-package entity;
+package repositories;
 
+import data.IDB;
+import entity.Booking;
+
+import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Booking {
-    private int id;
-    private int guestId;
-    private int roomId;
-    private LocalDate arrivalDate;
-    private LocalDate departureDate;
-    private double totalPrice;
+public class BookingRepository implements IBookingRepository {
 
-    public Booking() {}
+    private final IDB db;
 
-    public Booking(int guestId, int roomId, LocalDate arrivalDate, LocalDate departureDate, double totalPrice) {
-        this.guestId = guestId;
-        this.roomId = roomId;
-        this.arrivalDate = arrivalDate;
-        this.departureDate = departureDate;
-        this.totalPrice = totalPrice;
+    public BookingRepository(IDB db) {
+        this.db = db;
     }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    @Override
+    public boolean createBooking(Booking booking) {
+        String sql = "INSERT INTO bookings (guest_id, room_id, arrival_date, departure_date, total_price) VALUES (?, ?, ?, ?, ?)";
 
-    public int getGuestId() { return guestId; }
-    public int getRoomId() { return roomId; }
+        try (Connection con = db.getConnection();
+             PreparedStatement st = con.prepareStatement(sql)) {
 
-    public LocalDate getArrivalDate() { return arrivalDate; }
-    public LocalDate getDepartureDate() { return departureDate; }
+            st.setInt(1, booking.getGuestId());
+            st.setInt(2, booking.getRoomId());
+            st.setDate(3, Date.valueOf(booking.getArrivalDate()));
+            st.setDate(4, Date.valueOf(booking.getDepartureDate()));
+            st.setDouble(5, booking.getTotalPrice());
 
-    public double getTotalPrice() { return totalPrice; }
-    public void setTotalPrice(double totalPrice) { this.totalPrice = totalPrice; }
+            st.execute();
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
 
     @Override
-    public String toString() {
-        return "Booking{" + "id=" + id + ", roomId=" + roomId + ", guestId=" + guestId + ", arrivalDate=" +
-                arrivalDate + ", departureDate=" + departureDate + ", totalPrice=" + totalPrice + '}';
+    public boolean isRoomAvailable(int roomId, LocalDate arrival, LocalDate departure) {
+        String sql = """
+            SELECT COUNT(*) FROM bookings
+            WHERE room_id = ?
+            AND NOT (departure_date <= ? OR arrival_date >= ?)
+        """;
+
+        try (Connection con = db.getConnection();
+             PreparedStatement st = con.prepareStatement(sql)) {
+
+            st.setInt(1, roomId);
+            st.setDate(2, Date.valueOf(arrival));
+            st.setDate(3, Date.valueOf(departure));
+
+            ResultSet rs = st.executeQuery();
+            rs.next();
+            return rs.getInt(1) == 0;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    @Override
+    public double getRoomPrice(int roomId) {
+        String sql = "SELECT price_per_night FROM rooms WHERE id = ?";
+
+        try (Connection con = db.getConnection();
+             PreparedStatement st = con.prepareStatement(sql)) {
+
+            st.setInt(1, roomId);
+            ResultSet rs = st.executeQuery();
+            rs.next();
+            return rs.getDouble(1);
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return 0;
+        }
+    }
+
+    @Override
+    public List<Booking> getAllBookings() {
+        List<Booking> list = new ArrayList<>();
+        String sql = "SELECT * FROM bookings";
+
+        try (Connection con = db.getConnection();
+             PreparedStatement st = con.prepareStatement(sql);
+             ResultSet rs = st.executeQuery()) {
+
+            while (rs.next()) {
+                Booking b = new Booking(
+                        rs.getInt("guest_id"),
+                        rs.getInt("room_id"),
+                        rs.getDate("arrival_date").toLocalDate(),
+                        rs.getDate("departure_date").toLocalDate(),
+                        rs.getDouble("total_price")
+                );
+                b.setId(rs.getInt("id"));
+                list.add(b);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list;
     }
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface IBookingRepository {
     boolean createBooking(Booking booking);
-    boolean isRoomAvailable(int roomId, LocalDate arrivalDate, LocalDate departureDate);
+    boolean isRoomAvailable(int roomId, LocalDate arrival, LocalDate departure);
+    double getRoomPrice(int roomId);
     List<Booking> getAllBookings();
 }

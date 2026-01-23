@@ -10,8 +10,7 @@ public class Booking {
     private LocalDate departureDate;
     private double totalPrice;
 
-    public Booking() {}
-
+    // Constructor
     public Booking(int guestId, int roomId, LocalDate arrivalDate, LocalDate departureDate, double totalPrice) {
         this.guestId = guestId;
         this.roomId = roomId;
@@ -20,21 +19,52 @@ public class Booking {
         this.totalPrice = totalPrice;
     }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    // Getter and Setter methods
+    public int getId() {
+        return id;
+    }
 
-    public int getGuestId() { return guestId; }
-    public int getRoomId() { return roomId; }
+    public void setId(int id) {
+        this.id = id; // Set the id field
+    }
 
-    public LocalDate getArrivalDate() { return arrivalDate; }
-    public LocalDate getDepartureDate() { return departureDate; }
+    public int getGuestId() {
+        return guestId;
+    }
 
-    public double getTotalPrice() { return totalPrice; }
-    public void setTotalPrice(double totalPrice) { this.totalPrice = totalPrice; }
+    public void setGuestId(int guestId) {
+        this.guestId = guestId;
+    }
 
-    @Override
-    public String toString() {
-        return "Booking{" + "id=" + id + ", roomId=" + roomId + ", guestId=" + guestId + ", arrivalDate=" +
-                arrivalDate + ", departureDate=" + departureDate + ", totalPrice=" + totalPrice + '}';
+    public int getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
+    }
+
+    public LocalDate getArrivalDate() {
+        return arrivalDate;
+    }
+
+    public void setArrivalDate(LocalDate arrivalDate) {
+        this.arrivalDate = arrivalDate;
+    }
+
+    public LocalDate getDepartureDate() {
+        return departureDate;
+    }
+
+    public void setDepartureDate(LocalDate departureDate) {
+        this.departureDate = departureDate;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }
