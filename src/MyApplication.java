@@ -1,5 +1,3 @@
-package application;
-
 import controllers.IBookingController;
 import java.time.LocalDate;
 import java.util.Scanner;
