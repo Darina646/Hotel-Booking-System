@@ -6,17 +6,17 @@ import java.sql.SQLException;
 
 public class PostgresDB implements IDB {
     private final String url;
-    private final String user;
+    private final String username;
     private final String password;
 
-    public PostgresDB(String url, String user, String password) {
-        this.url = url;
-        this.user = user;
-        this.password = password;
+    public PostgresDB(String url, String username, String password) {
+        this.url = "jdbc:postgresql://localhost:5432/postgres";
+        this.username = "postgres";
+        this.password = "0000";
     }
 
     @Override
     public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(url, user, password);
+        return DriverManager.getConnection(url, username, password);
     }
 }

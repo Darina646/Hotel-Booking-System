@@ -38,9 +38,7 @@ public class MyApplication {
                 System.out.print("Departure (YYYY-MM-DD): ");
                 LocalDate departure = LocalDate.parse(scanner.next());
 
-                System.out.println(
-                        controller.createBooking(guestId, roomId, arrival, departure)
-                );
+                System.out.println(controller.createBooking(guestId, roomId, arrival, departure));
             } else {
                 break;
             }

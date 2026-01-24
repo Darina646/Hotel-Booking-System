@@ -18,23 +18,29 @@ public class BookingRepository implements IBookingRepository {
 
     @Override
     public boolean createBooking(Booking booking) {
-        String sql = "INSERT INTO bookings (guest_id, room_id, arrival_date, departure_date, total_price) VALUES (?, ?, ?, ?, ?)";
+        // Correct SQL query
+        String sql = """
+            INSERT INTO bookings (guest_id, room_id, arrival_date, departure_date, total_price)
+            VALUES (?, ?, ?, ?, ?)
+        """;
 
         try (Connection con = db.getConnection();
              PreparedStatement st = con.prepareStatement(sql)) {
 
+            // Setting values for the SQL query
             st.setInt(1, booking.getGuestId());
             st.setInt(2, booking.getRoomId());
             st.setDate(3, Date.valueOf(booking.getArrivalDate()));
             st.setDate(4, Date.valueOf(booking.getDepartureDate()));
             st.setDouble(5, booking.getTotalPrice());
 
+            // Execute the query
             st.execute();
-            return true;
+            return true; // Booking successfully inserted
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return false;
+            System.out.println("Error while creating booking: " + e.getMessage());
+            return false; // Something went wrong
         }
     }
 
@@ -54,12 +60,12 @@ public class BookingRepository implements IBookingRepository {
             st.setDate(3, Date.valueOf(departure));
 
             ResultSet rs = st.executeQuery();
-            rs.next();
-            return rs.getInt(1) == 0;
+            rs.next(); // Make sure to call next to move the ResultSet cursor to the first row
+            return rs.getInt(1) == 0; // If there are no bookings overlapping the requested dates
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return false;
+            System.out.println("Error while checking room availability: " + e.getMessage());
+            return false; // Something went wrong
         }
     }
 
@@ -72,11 +78,11 @@ public class BookingRepository implements IBookingRepository {
 
             st.setInt(1, roomId);
             ResultSet rs = st.executeQuery();
-            rs.next();
-            return rs.getDouble(1);
+            rs.next(); // Get the first row from the result
+            return rs.getDouble("price_per_night");
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error while getting room price: " + e.getMessage());
             return 0;
         }
     }
@@ -102,7 +108,7 @@ public class BookingRepository implements IBookingRepository {
                 list.add(b);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error while retrieving all bookings: " + e.getMessage());
         }
         return list;
     }
