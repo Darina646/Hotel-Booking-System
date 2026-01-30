@@ -3,7 +3,6 @@ package entity;
 import java.time.LocalDate;
 
 public class Booking {
-
     private int id;
     private final int guestId;
     private final int roomId;
