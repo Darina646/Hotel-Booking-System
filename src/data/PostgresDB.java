@@ -10,7 +10,7 @@ public class PostgresDB implements IDB {
     private final String password;
 
     public PostgresDB(String url, String username, String password) {
-        this.url = "jdbc:postgresql://localhost:5432/postgres";
+        this.url = "jdbc:postgresql://localhost:5432/hotel_booking_system";
         this.username = "postgres";
         this.password = "0000";
     }

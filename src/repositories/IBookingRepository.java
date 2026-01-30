@@ -9,4 +9,5 @@ public interface IBookingRepository {
     boolean isRoomAvailable(int roomId, LocalDate arrival, LocalDate departure);
     double getRoomPrice(int roomId);
     List<Booking> getAllBookings();
+    List<Booking> getUnavailableRooms(LocalDate startDate, LocalDate endDate);
 }

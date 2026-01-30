@@ -18,6 +18,7 @@ public class MyApplication {
             System.out.println("""
                 1. Get all bookings
                 2. Create booking
+                3. View unavailable rooms
                 0. Exit
                 """);
 
@@ -26,19 +27,31 @@ public class MyApplication {
             if (option == 1) {
                 System.out.println(controller.getAllBookings());
             } else if (option == 2) {
-                System.out.print("Guest id: ");
-                int guestId = scanner.nextInt();
+                System.out.print("Enter Guest Name: ");
+                scanner.nextLine();  // consume newline
+                String guestName = scanner.nextLine();
 
-                System.out.print("Room id: ");
+                System.out.print("Enter Guest Email: ");
+                String guestEmail = scanner.nextLine();
+
+                System.out.print("Enter Room ID: ");
                 int roomId = scanner.nextInt();
 
-                System.out.print("Arrival (YYYY-MM-DD): ");
+                System.out.print("Arrival Date (YYYY-MM-DD): ");
                 LocalDate arrival = LocalDate.parse(scanner.next());
 
-                System.out.print("Departure (YYYY-MM-DD): ");
+                System.out.print("Departure Date (YYYY-MM-DD): ");
                 LocalDate departure = LocalDate.parse(scanner.next());
 
-                System.out.println(controller.createBooking(guestId, roomId, arrival, departure));
+                System.out.println(controller.createBooking(guestName, guestEmail, roomId, arrival, departure));
+            } else if (option == 3) {
+                System.out.print("Enter Start Date (YYYY-MM-DD): ");
+                LocalDate startDate = LocalDate.parse(scanner.next());
+
+                System.out.print("Enter End Date (YYYY-MM-DD): ");
+                LocalDate endDate = LocalDate.parse(scanner.next());
+
+                System.out.println(controller.getUnavailableRooms(startDate, endDate));
             } else {
                 break;
             }

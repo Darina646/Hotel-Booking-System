@@ -9,7 +9,7 @@ public class Main {
         PostgresDB db = new PostgresDB(
                 "jdbc:postgresql://localhost:5432/hotel_booking_system",
                 "postgres",
-                "password"
+                "0000"
         );
 
         BookingRepository repo = new BookingRepository(db);
