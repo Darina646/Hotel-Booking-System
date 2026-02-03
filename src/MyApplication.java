@@ -1,5 +1,3 @@
-package application;
-
 import controllers.IBookingController;
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -43,7 +41,10 @@ public class MyApplication {
                 System.out.print("Departure Date (YYYY-MM-DD): ");
                 LocalDate departure = LocalDate.parse(scanner.next());
 
-                System.out.println(controller.createBooking(guestName, guestEmail, roomId, arrival, departure));
+                System.out.print("Enter your Age: ");
+                int age = scanner.nextInt();
+
+                System.out.println(controller.createBooking(guestName, guestEmail, roomId, arrival, departure, age));
             } else if (option == 3) {
                 System.out.print("Enter Start Date (YYYY-MM-DD): ");
                 LocalDate startDate = LocalDate.parse(scanner.next());

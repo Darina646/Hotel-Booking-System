@@ -3,14 +3,16 @@ CREATE TABLE rooms (
                        id SERIAL PRIMARY KEY,
                        room_number VARCHAR(50) NOT NULL,
                        capacity INT NOT NULL,
-                       price DECIMAL(10, 2) NOT NULL
+                       price DECIMAL(10, 2) NOT NULL,
+                       category VARCHAR(50)  -- Added the category column
 );
 
 -- Create guests table
 CREATE TABLE guests (
                         id SERIAL PRIMARY KEY,
                         name VARCHAR(255) NOT NULL,
-                        email VARCHAR(255) UNIQUE NOT NULL
+                        email VARCHAR(255) UNIQUE NOT NULL,
+                        role VARCHAR(50)  -- Added role column to distinguish admin/user
 );
 
 -- Create bookings table

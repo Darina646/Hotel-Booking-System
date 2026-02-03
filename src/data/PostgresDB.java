@@ -5,14 +5,20 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class PostgresDB implements IDB {
-    private final String url;
-    private final String username;
-    private final String password;
+    private static PostgresDB instance;
+    private final String url = "jdbc:postgresql://localhost:5432/hotel_booking_system";
+    private final String username = "postgres";
+    private final String password = "0000";
 
-    public PostgresDB(String url, String username, String password) {
-        this.url = "jdbc:postgresql://localhost:5432/hotel_booking_system";
-        this.username = "postgres";
-        this.password = "0000";
+    // Private constructor to prevent instantiation
+    private PostgresDB() { }
+
+    // Singleton getInstance method
+    public static synchronized PostgresDB getInstance() {
+        if (instance == null) {
+            instance = new PostgresDB();
+        }
+        return instance;
     }
 
     @Override

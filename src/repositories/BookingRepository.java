@@ -38,8 +38,7 @@ public class BookingRepository implements IBookingRepository {
     public boolean isRoomAvailable(int roomId, LocalDate arrival, LocalDate departure) {
         String sql = """
             SELECT COUNT(*) FROM bookings
-            WHERE room_id = ?
-            AND NOT (departure_date <= ? OR arrival_date >= ?)
+            WHERE room_id = ? AND NOT (departure_date <= ? OR arrival_date >= ?)
         """;
 
         try (Connection con = db.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
@@ -58,14 +57,19 @@ public class BookingRepository implements IBookingRepository {
 
     @Override
     public double getRoomPrice(int roomId) {
-        // Fixed price per night for all rooms
-        return 20;
+        return 20; // Fixed price per night for all rooms
     }
 
     @Override
     public List<Booking> getAllBookings() {
         List<Booking> list = new ArrayList<>();
-        String sql = "SELECT * FROM bookings";
+        String sql = """
+            SELECT b.id, b.guest_id, g.name AS guest_name, b.room_id, r.room_number, r.category, 
+                   b.arrival_date, b.departure_date, b.total_price
+            FROM bookings b
+            JOIN guests g ON b.guest_id = g.id
+            JOIN rooms r ON b.room_id = r.id
+        """;
 
         try (Connection con = db.getConnection(); PreparedStatement st = con.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
             while (rs.next()) {

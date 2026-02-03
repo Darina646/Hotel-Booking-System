@@ -16,10 +16,25 @@ public class BookingController implements IBookingController {
     }
 
     @Override
-    public String createBooking(String guestName, String guestEmail, int roomId, LocalDate arrival, LocalDate departure) {
+    public String createBooking(String guestName, String guestEmail, int roomId, LocalDate arrival, LocalDate departure, int age) {
+        // Validate the email format
+        if (!guestEmail.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            return "Invalid email address!";
+        }
+
         // Ensure the departure date is after the arrival date
         if (arrival.isAfter(departure)) {
             return "Departure date must be after the arrival date.";
+        }
+
+        // Check if the arrival date is not in the past (must be today or in the future)
+        if (arrival.isBefore(LocalDate.now())) {
+            return "Arrival date cannot be in the past.";
+        }
+
+        // Check the user's age - If under 18, deny the booking
+        if (age < 18) {
+            return "You must be 18 or older to make a booking.";
         }
 
         // Check if the room is available during the requested dates
@@ -50,8 +65,11 @@ public class BookingController implements IBookingController {
     public String getAllBookings() {
         List<Booking> list = repo.getAllBookings();
         if (list.isEmpty()) return "No bookings found.";
+
+        // Use lambda expression for iteration
         StringBuilder sb = new StringBuilder();
-        for (Booking b : list) sb.append(b).append("\n");
+        list.forEach(b -> sb.append(b).append("\n"));
+
         return sb.toString();
     }
 
@@ -61,13 +79,16 @@ public class BookingController implements IBookingController {
         if (unavailableBookings.isEmpty()) {
             return "No rooms are unavailable for the selected dates.";
         }
+
+        // Use lambda expression for iteration
         StringBuilder sb = new StringBuilder();
-        for (Booking booking : unavailableBookings) {
-            sb.append("Room ID: ").append(booking.getRoomId())
-                    .append(" | Arrival: ").append(booking.getArrivalDate())
-                    .append(" | Departure: ").append(booking.getDepartureDate())
-                    .append("\n");
-        }
+        unavailableBookings.forEach(booking ->
+                sb.append("Room ID: ").append(booking.getRoomId())
+                        .append(" | Arrival: ").append(booking.getArrivalDate())
+                        .append(" | Departure: ").append(booking.getDepartureDate())
+                        .append("\n")
+        );
+
         return sb.toString();
     }
 }
