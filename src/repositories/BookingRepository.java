@@ -6,6 +6,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import entity.FullBookingDescription;
 
 public class BookingRepository implements IBookingRepository {
 
@@ -57,18 +58,44 @@ public class BookingRepository implements IBookingRepository {
 
     @Override
     public double getRoomPrice(int roomId) {
-        return 20; // Fixed price per night for all rooms
+        String sql = "SELECT price_per_night FROM rooms WHERE id = ?";
+
+        try (Connection con = db.getConnection();
+             PreparedStatement st = con.prepareStatement(sql)) {
+
+            st.setInt(1, roomId);
+            ResultSet rs = st.executeQuery();
+
+            if (rs.next()) {
+                return Double.parseDouble(rs.getString("price_per_night"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting room price: " + e.getMessage());
+        }
+
+        return 0;
     }
 
     @Override
     public List<Booking> getAllBookings() {
         List<Booking> list = new ArrayList<>();
         String sql = """
-            SELECT b.id, b.guest_id, g.name AS guest_name, b.room_id, r.room_number, r.category, 
-                   b.arrival_date, b.departure_date, b.total_price
-            FROM bookings b
-            JOIN guests g ON b.guest_id = g.id
-            JOIN rooms r ON b.room_id = r.id
+        
+                SELECT
+                                                b.id,
+                                                b.guest_id,
+                                                g.full_name AS guest_name,
+                                                b.room_id,
+                                                r.number AS room_number,
+                                                r.price_per_night,
+                                                b.arrival_date,
+                                                b.departure_date,
+                                                b.total_price
+                                            FROM bookings b
+                                            JOIN guests g ON b.guest_id = g.id
+                                            JOIN rooms r ON b.room_id = r.id
+                                            
         """;
 
         try (Connection con = db.getConnection(); PreparedStatement st = con.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
@@ -121,4 +148,4 @@ public class BookingRepository implements IBookingRepository {
         }
         return list;
     }
-}
+    }

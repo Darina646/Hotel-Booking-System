@@ -2,7 +2,7 @@ import controllers.IBookingController;
 import java.time.LocalDate;
 import java.util.Scanner;
 
-public class MyApplication {
+public class  MyApplication {
 
     private final IBookingController controller;
     private final Scanner scanner = new Scanner(System.in);
@@ -10,13 +10,13 @@ public class MyApplication {
     public MyApplication(IBookingController controller) {
         this.controller = controller;
     }
-
     public void start() {
         while (true) {
             System.out.println("""
                 1. Get all bookings
                 2. Create booking
                 3. View unavailable rooms
+                4. View booking details
                 0. Exit
                 """);
 
@@ -51,8 +51,17 @@ public class MyApplication {
 
                 System.out.print("Enter End Date (YYYY-MM-DD): ");
                 LocalDate endDate = LocalDate.parse(scanner.next());
+                System.out.println(
+                        controller.getUnavailableRooms(startDate, endDate)
+                );
+            }else if (option == 4) {
+                // 🔹 ВОТ ТУТ пункт 4 (отдельно)
+                System.out.print("Enter booking ID: ");
+                int bookingId = scanner.nextInt();
 
-                System.out.println(controller.getUnavailableRooms(startDate, endDate));
+                System.out.println(
+                        controller.getFullBookingDescription(bookingId)
+                );
             } else {
                 break;
             }
