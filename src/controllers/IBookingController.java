@@ -8,5 +8,6 @@ public interface IBookingController {
     String getAllBookings();
     String getUnavailableRooms(LocalDate startDate, LocalDate endDate);
     String getFullBookingDescription(int bookingId);
+
 }
 

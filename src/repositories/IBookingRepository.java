@@ -11,4 +11,5 @@ public interface IBookingRepository {
     double getRoomPrice(int roomId);
     List<Booking> getAllBookings();
     List<Booking> getUnavailableRooms(LocalDate startDate, LocalDate endDate);
+
 }
