@@ -1,4 +1,4 @@
--- Create rooms table
+-- rooms table
 CREATE TABLE rooms (
                        id SERIAL PRIMARY KEY,
                        room_number VARCHAR(50) NOT NULL,
@@ -7,7 +7,7 @@ CREATE TABLE rooms (
                        category VARCHAR(50)  -- Added the category column
 );
 
--- Create guests table
+-- guests table
 CREATE TABLE guests (
                         id SERIAL PRIMARY KEY,
                         name VARCHAR(255) NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE guests (
                         role VARCHAR(50)  -- Added role column to distinguish admin/user
 );
 
--- Create bookings table
+-- bookings table
 CREATE TABLE bookings (
                           id SERIAL PRIMARY KEY,
                           guest_id INT NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE bookings (
                           CHECK (start_date < end_date)
 );
 
--- Query to check available rooms (adjust dates as needed)
+-- check available rooms
 SELECT * FROM rooms r
 WHERE NOT EXISTS (
     SELECT 1 FROM bookings b
@@ -39,5 +39,5 @@ WHERE NOT EXISTS (
         )
 );
 
--- Query to get all bookings
+-- get all bookings
 SELECT * FROM bookings;
