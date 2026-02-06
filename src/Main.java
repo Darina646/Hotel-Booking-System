@@ -1,10 +1,10 @@
+// Main.java (placed in the default or separate package)
 import controllers.BookingController;
 import data.PostgresDB;
 import repositories.BookingRepository;
 
 public class Main {
     public static void main(String[] args) {
-
         // Using Singleton to get the PostgresDB instance
         PostgresDB db = PostgresDB.getInstance();
 

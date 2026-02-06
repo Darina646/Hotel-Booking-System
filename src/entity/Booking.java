@@ -9,13 +9,15 @@ public class Booking {
     private final LocalDate arrivalDate;
     private final LocalDate departureDate;
     private final double totalPrice;
+    private final RoomCategory category;
 
-    public Booking(int guestId, int roomId, LocalDate arrivalDate, LocalDate departureDate, double totalPrice) {
+    public Booking(int guestId, int roomId, LocalDate arrivalDate, LocalDate departureDate, double totalPrice, RoomCategory category) {
         this.guestId = guestId;
         this.roomId = roomId;
         this.arrivalDate = arrivalDate;
         this.departureDate = departureDate;
         this.totalPrice = totalPrice;
+        this.category = category;
     }
 
     public int getId() {
@@ -46,6 +48,10 @@ public class Booking {
         return totalPrice;
     }
 
+    public RoomCategory getCategory() {
+        return category;
+    }
+
     @Override
     public String toString() {
         return "Booking{" +
@@ -55,6 +61,7 @@ public class Booking {
                 ", arrivalDate=" + arrivalDate +
                 ", departureDate=" + departureDate +
                 ", totalPrice=" + totalPrice +
+                ", category=" + category +
                 '}';
     }
 }
