@@ -55,7 +55,6 @@ public class  MyApplication {
                         controller.getUnavailableRooms(startDate, endDate)
                 );
             }else if (option == 4) {
-                // 🔹 ВОТ ТУТ пункт 4 (отдельно)
                 System.out.print("Enter booking ID: ");
                 int bookingId = scanner.nextInt();
 
