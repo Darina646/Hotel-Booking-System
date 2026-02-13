@@ -3,3 +3,5 @@ public class Main {
         String url = "jdbc:postgresql://localhost:5432/hotel_booking_system";
         String username = "postgres";
         String password = "0000";
+    }
+}
