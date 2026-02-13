@@ -1,23 +1,30 @@
 package entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Booking {
     private int id;
-    private final int guestId;
-    private final int roomId;
-    private final LocalDate arrivalDate;
-    private final LocalDate departureDate;
-    private final double totalPrice;
-    private final RoomCategory category;
+    private int guestId;
+    private Guest guest;
+    private int roomId;
+    private Room room;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private double totalPrice;
+    private String status;
+    private Integer createdBy;
+    private LocalDateTime createdAt;
 
-    public Booking(int guestId, int roomId, LocalDate arrivalDate, LocalDate departureDate, double totalPrice, RoomCategory category) {
+    public Booking() {}
+
+    public Booking(int guestId, int roomId, LocalDate startDate, LocalDate endDate, double totalPrice) {
         this.guestId = guestId;
         this.roomId = roomId;
-        this.arrivalDate = arrivalDate;
-        this.departureDate = departureDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.totalPrice = totalPrice;
-        this.category = category;
+        this.status = "CONFIRMED";
     }
 
     public int getId() {
@@ -32,36 +39,87 @@ public class Booking {
         return guestId;
     }
 
+    public void setGuestId(int guestId) {
+        this.guestId = guestId;
+    }
+
+    public Guest getGuest() {
+        return guest;
+    }
+
+    public void setGuest(Guest guest) {
+        this.guest = guest;
+    }
+
     public int getRoomId() {
         return roomId;
     }
 
-    public LocalDate getArrivalDate() {
-        return arrivalDate;
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
     }
 
-    public LocalDate getDepartureDate() {
-        return departureDate;
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 
     public double getTotalPrice() {
         return totalPrice;
     }
 
-    public RoomCategory getCategory() {
-        return category;
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Integer getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Integer createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override
     public String toString() {
-        return "Booking{" +
-                "id=" + id +
-                ", guestId=" + guestId +
-                ", roomId=" + roomId +
-                ", arrivalDate=" + arrivalDate +
-                ", departureDate=" + departureDate +
-                ", totalPrice=" + totalPrice +
-                ", category=" + category +
-                '}';
+        return "Booking{id=" + id + ", guest=" + (guest != null ? guest.getName() : "N/A") +
+                ", room=" + (room != null ? room.getRoomNumber() : "N/A") +
+                ", dates=" + startDate + " to " + endDate + ", total=$" + totalPrice +
+                ", status='" + status + "'}";
     }
 }

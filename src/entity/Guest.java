@@ -1,9 +1,21 @@
 package entity;
 
+import java.time.LocalDateTime;
+
 public class Guest {
     private int id;
     private String name;
     private String email;
+    private String phone;
+    private LocalDateTime createdAt;
+
+    public Guest() {}
+
+    public Guest(String name, String email, String phone) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+    }
 
     public int getId() {
         return id;
@@ -27,5 +39,26 @@ public class Guest {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    @Override
+    public String toString() {
+        return "Guest{id=" + id + ", name='" + name + "', email='" + email + "', phone='" + phone + "'}";
     }
 }

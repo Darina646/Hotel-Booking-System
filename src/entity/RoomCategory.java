@@ -1,7 +1,53 @@
 package entity;
 
-public enum RoomCategory {
-    STANDARD,  // Standard room
-    LUXURY,    // Luxury room
-    BUSINESS   // Business room
+public class RoomCategory {
+    private int id;
+    private String name;
+    private String description;
+    private double basePrice;
+
+    public RoomCategory() {}
+
+    public RoomCategory(String name, String description, double basePrice) {
+        this.name = name;
+        this.description = description;
+        this.basePrice = basePrice;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getBasePrice() {
+        return basePrice;
+    }
+
+    public void setBasePrice(double basePrice) {
+        this.basePrice = basePrice;
+    }
+
+    @Override
+    public String toString() {
+        return "RoomCategory{id=" + id + ", name='" + name + "', basePrice=$" + basePrice + "}";
+    }
 }
