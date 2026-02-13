@@ -36,7 +36,6 @@ public class HotelApplication {
     private void printWelcome() {
         System.out.println("\n╔════════════════════════════════════════╗");
         System.out.println("║   HOTEL BOOKING MANAGEMENT SYSTEM      ║");
-        System.out.println("║        Version 2.0 - PostgreSQL        ║");
         System.out.println("╚════════════════════════════════════════╝\n");
     }
 
